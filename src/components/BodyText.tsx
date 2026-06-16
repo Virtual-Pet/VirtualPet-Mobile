@@ -1,11 +1,21 @@
-import { useTheme } from "@/src/theme-context";
+import { useTheme } from "@/src/hooks/theme-context";
 import { ReactNode } from "react";
 import { StyleSheet, Text, type StyleProp, type TextStyle } from "react-native";
 
-export function BodyText({ children, style }: { children: ReactNode; style?: StyleProp<TextStyle> }) {
+export function BodyText({
+  children,
+  style,
+}: {
+  children: ReactNode;
+  style?: StyleProp<TextStyle>;
+}) {
   const { colors } = useTheme();
 
-  return <Text style={[styles.bodyText, { color: colors.secondaryText }, style]}>{children}</Text>;
+  return (
+    <Text style={[styles.bodyText, { color: colors.secondaryText }, style]}>
+      {children}
+    </Text>
+  );
 }
 
 const styles = StyleSheet.create({

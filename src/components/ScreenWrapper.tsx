@@ -1,4 +1,4 @@
-import { useTheme } from "@/src/theme-context";
+import { useTheme } from "@/src/hooks/theme-context";
 import { ReactNode } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,7 +7,9 @@ export function ScreenWrapper({ children }: { children: ReactNode }) {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[styles.screen, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.screen, { backgroundColor: colors.background }]}
+    >
       {children}
     </SafeAreaView>
   );

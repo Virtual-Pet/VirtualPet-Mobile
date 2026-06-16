@@ -1,13 +1,21 @@
-import { useTheme } from "@/src/theme-context";
+import { useTheme } from "@/src/hooks/theme-context";
 import { StyleSheet, Text, View } from "react-native";
 
-export function SectionTitle({ title, subtitle }: { title: string; subtitle: string }) {
+export function SectionTitle({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle: string;
+}) {
   const { colors } = useTheme();
 
   return (
     <View style={styles.titleContainer}>
       <Text style={[styles.title, { color: colors.primary }]}>{title}</Text>
-      <Text style={[styles.subtitle, { color: colors.secondaryText }]}>{subtitle}</Text>
+      <Text style={[styles.subtitle, { color: colors.secondaryText }]}>
+        {subtitle}
+      </Text>
     </View>
   );
 }

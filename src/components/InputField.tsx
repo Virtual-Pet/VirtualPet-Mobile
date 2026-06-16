@@ -1,5 +1,5 @@
 import { FieldLabel } from "@/src/components/FieldLabel";
-import { useTheme } from "@/src/theme-context";
+import { useTheme } from "@/src/hooks/theme-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
@@ -38,7 +38,6 @@ export function InputField({
             borderColor: isFocused ? colors.primary : "transparent",
             borderWidth: 1.5,
           },
-          style,
         ]}
       >
         <TextInput
