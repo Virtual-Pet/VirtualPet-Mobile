@@ -1,4 +1,4 @@
-import { useAuth } from "@/src/auth-context";
+import { useAuth } from "@/src/hooks/auth-context";
 import {
   login as loginService,
   type LoginCredentials,

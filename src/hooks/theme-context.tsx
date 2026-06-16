@@ -1,6 +1,13 @@
 import * as SecureStore from "expo-secure-store";
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { ThemeMode, themeColors } from "./theme";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+    type ReactNode,
+} from "react";
+import { ThemeMode, themeColors } from "../theme";
 
 const THEME_KEY = "vp_delivery_theme";
 
@@ -54,10 +61,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       toggleTheme,
       loaded,
     }),
-    [theme, loaded]
+    [theme, loaded],
   );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {

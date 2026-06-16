@@ -1,4 +1,4 @@
-import { useTheme } from "@/src/theme-context";
+import { useTheme } from "@/src/hooks/theme-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs, useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
@@ -24,7 +24,7 @@ export default function TabsLayout() {
 
         headerRight: () => (
           <TouchableOpacity
-            onPress={() => router.push("/settings")} // Llama a tu settings intacto
+            onPress={() => router.push("/settings")}
             style={{ marginRight: 16, padding: 8 }}
           >
             <View

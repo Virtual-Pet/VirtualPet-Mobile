@@ -1,25 +1,27 @@
 import * as LocalAuthentication from "expo-local-authentication";
 import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+    type ReactNode,
 } from "react";
-import { logout as logoutService } from "./services/auth-service";
+import { logout as logoutService } from "../services/auth-service";
 import {
-  clearCredentials,
-  readCredentials,
-  saveCredentials,
-  type StoredCredentials,
-} from "./storage";
+    clearCredentials,
+    readCredentials,
+    saveCredentials,
+    type StoredCredentials,
+} from "../storage";
 
 type AuthStatus = "loading" | "none" | "locked" | "authenticated";
 
 type AuthContextValue = {
   status: AuthStatus;
   userEmail: string | null;
+  userProfile: UserProfile | null;
+  token: string | null;
   hasBiometrics: boolean;
   isReady: boolean;
   login: (values: Omit<StoredCredentials, "pin">) => Promise<void>;
@@ -27,13 +29,42 @@ type AuthContextValue = {
   unlockApp: () => Promise<boolean>;
 };
 
+export type UserProfile = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+};
+
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<AuthStatus>("loading");
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [hasBiometrics, setHasBiometrics] = useState(false);
   const [isReady, setIsReady] = useState(false);
+
+  const fetchUserProfile = async (token: string) => {
+    try {
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/auth/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setUserProfile(data);
+      }
+    } catch (error) {
+      console.warn("No se pudo obtener el perfil del usuario", error);
+    }
+  };
 
   useEffect(() => {
     async function initializeAuth() {
@@ -46,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const stored = await readCredentials();
         if (stored?.email) {
           setUserEmail(stored.email);
+          setToken(stored.token ?? null);
           setStatus("locked");
         } else {
           setStatus("none");
@@ -64,6 +96,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (values: StoredCredentials) => {
     await saveCredentials(values);
     setUserEmail(values.email);
+    setToken(values.token ?? null);
+
+    if (values.token) {
+      await fetchUserProfile(values.token);
+    }
     setStatus("authenticated");
   };
 
@@ -75,6 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.warn("Error en logout remoto:", error);
     } finally {
       await clearCredentials();
+      setUserProfile(null);
       setUserEmail(null);
       setStatus("none");
     }
@@ -89,6 +127,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (result.success) {
+        const stored = await readCredentials();
+        if (stored?.token) {
+          await fetchUserProfile(stored.token);
+        }
+        setToken(stored?.token ?? null);
         setStatus("authenticated");
         return true;
       }
@@ -103,13 +146,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       status,
       userEmail,
+      token,
+      userProfile,
       hasBiometrics,
       isReady,
       login,
       logout,
       unlockApp,
     }),
-    [status, userEmail, hasBiometrics, isReady],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [status, userEmail, token, userProfile, hasBiometrics, isReady],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,4 +1,4 @@
-import { useAuth } from "@/src/auth-context";
+import { useAuth } from "@/src/hooks/auth-context";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
@@ -8,8 +8,8 @@ import { ScreenWrapper } from "../components/ScreenWrapper";
 import { SectionTitle } from "../components/SectionTitle";
 
 export default function UnlockScreen() {
-  const router = useRouter();  
-  const { status, unlockApp, isReady } = useAuth(); 
+  const router = useRouter();
+  const { status, unlockApp, isReady } = useAuth();
   const [error, setError] = useState("");
   const [isPrompting, setIsPrompting] = useState(false);
 
@@ -34,9 +34,11 @@ export default function UnlockScreen() {
     setIsPrompting(true);
 
     const success = await unlockApp();
-    
+
     if (!success) {
-      setError("Autenticación cancelada. Por favor, verificá tu identidad para continuar.");
+      setError(
+        "Autenticación cancelada. Por favor, verificá tu identidad para continuar.",
+      );
       setIsPrompting(false);
       return;
     }
@@ -45,24 +47,25 @@ export default function UnlockScreen() {
   return (
     <ScreenWrapper>
       <View style={styles.container}>
-        
         <View style={styles.headerContainer}>
           <Image
-            source={{ uri: "https://ui-avatars.com/api/?name=%F0%9F%94%92&background=F3F4F6&color=0D8ABC&rounded=true&size=128" }}
+            source={{
+              uri: "https://ui-avatars.com/api/?name=%F0%9F%94%92&background=F3F4F6&color=0D8ABC&rounded=true&size=128",
+            }}
             style={styles.icon}
           />
-          <SectionTitle 
-            title="App Bloqueada" 
-            subtitle="Por seguridad, verificá tu identidad." 
+          <SectionTitle
+            title="App Bloqueada"
+            subtitle="Por seguridad, verificá tu identidad."
           />
         </View>
 
         <View style={styles.formContainer}>
           <Card style={styles.cardStyle}>
-            
             <View style={styles.infoContainer}>
               <Text style={styles.infoText}>
-                Usá tu huella, rostro o el PIN de tu celular para acceder a tus pedidos.
+                Usá tu huella, rostro o el PIN de tu celular para acceder a tus
+                pedidos.
               </Text>
             </View>
 
@@ -80,7 +83,6 @@ export default function UnlockScreen() {
                 disabled={isPrompting}
               />
             </View>
-
           </Card>
         </View>
       </View>
