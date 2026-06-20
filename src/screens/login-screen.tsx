@@ -15,11 +15,11 @@ import {
   Text,
   View,
 } from "react-native";
-import { Card } from "../components/Card";
-import { InputField } from "../components/InputField";
-import { PrimaryButton } from "../components/PrimaryButton";
-import { ScreenWrapper } from "../components/ScreenWrapper";
-import { SectionTitle } from "../components/SectionTitle";
+import { Card } from "../components/ui/Card";
+import { InputField } from "../components/ui/InputField";
+import { PrimaryButton } from "../components/ui/PrimaryButton";
+import { ScreenWrapper } from "../components/ui/ScreenWrapper";
+import { SectionTitle } from "../components/ui/SectionTitle";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -94,7 +94,6 @@ export default function LoginScreen() {
             />
           </View>
 
-          {/* Formulario */}
           <View style={styles.formContainer}>
             <Card style={styles.cardStyle}>
               <InputField
@@ -120,7 +119,6 @@ export default function LoginScreen() {
                 autoCapitalize="none"
               />
 
-              {/* Mensaje de error con mejor UI */}
               {error ? (
                 <View style={styles.errorContainer}>
                   <Text style={styles.errorLabel}>{error}</Text>
@@ -134,11 +132,6 @@ export default function LoginScreen() {
                   disabled={isLoading}
                 />
               </View>
-
-              {/* Botón secundario para recuperar clave */}
-              {/* <TouchableOpacity style={styles.forgotPasswordButton}>
-                <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
-              </TouchableOpacity> */}
             </Card>
           </View>
         </KeyboardAvoidingView>

@@ -2,10 +2,10 @@ import { useAuth } from "@/src/hooks/auth-context";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { Card } from "../components/Card";
-import { PrimaryButton } from "../components/PrimaryButton";
-import { ScreenWrapper } from "../components/ScreenWrapper";
-import { SectionTitle } from "../components/SectionTitle";
+import { Card } from "../components/ui/Card";
+import { PrimaryButton } from "../components/ui/PrimaryButton";
+import { ScreenWrapper } from "../components/ui/ScreenWrapper";
+import { SectionTitle } from "../components/ui/SectionTitle";
 
 export default function UnlockScreen() {
   const router = useRouter();
@@ -27,6 +27,7 @@ export default function UnlockScreen() {
     if (status === "locked" && !isPrompting) {
       handleNativeAuth();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   const handleNativeAuth = async () => {
@@ -75,7 +76,6 @@ export default function UnlockScreen() {
               </View>
             ) : null}
 
-            {/* Este botón solo se usa si el usuario canceló el prompt automático y quiere reintentar */}
             <View style={styles.buttonContainer}>
               <PrimaryButton
                 label="Desbloquear Virtual Pet"

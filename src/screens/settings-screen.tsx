@@ -3,11 +3,11 @@ import { useTheme } from "@/src/hooks/theme-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Image, ScrollView, StyleSheet, Switch, View } from "react-native";
-import { BodyText } from "../components/BodyText";
-import { Card } from "../components/Card";
-import { PrimaryButton } from "../components/PrimaryButton";
-import { ScreenWrapper } from "../components/ScreenWrapper";
-import { SectionTitle } from "../components/SectionTitle";
+import { BodyText } from "../components/ui/BodyText";
+import { Card } from "../components/ui/Card";
+import { PrimaryButton } from "../components/ui/PrimaryButton";
+import { ScreenWrapper } from "../components/ui/ScreenWrapper";
+import { SectionTitle } from "../components/ui/SectionTitle";
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -34,7 +34,6 @@ export default function SettingsScreen() {
           subtitle="Gestioná tu cuenta y preferencias de la aplicación."
         />
 
-        {/* 1. Tarjeta de Cuenta con Avatar */}
         <Card style={styles.cardSpacing}>
           <View style={styles.profileHeader}>
             <Image
@@ -62,7 +61,6 @@ export default function SettingsScreen() {
           </View>
         </Card>
 
-        {/* 2. Tarjeta de Preferencias (Tema) */}
         <Card style={styles.cardSpacing}>
           <View style={styles.cardTitleRow}>
             <Ionicons
@@ -96,7 +94,6 @@ export default function SettingsScreen() {
           </View>
         </Card>
 
-        {/* Botón de Logout destructivo */}
         <PrimaryButton
           label="Cerrar sesión"
           onPress={handleLogout}
@@ -133,7 +130,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  // Estilos del perfil
   profileHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -170,7 +166,6 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
 
-  // Estilos del tema
   themeRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -189,7 +184,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 
-  // Logout
   logoutButton: {
     backgroundColor: "#EF4444",
     marginTop: 8,

@@ -64,23 +64,18 @@ export async function getAvailableShipments(
 }
 
 /**
- * Asigna un pedido al repartidor
+ * Asigna un pedido al repartidor actual
  */
 export async function assignShipmentToMe(
   token: string,
   shipmentId: string,
-  operatorId: string,
 ): Promise<Shipment> {
-  const response = await fetch(`${API_URL}/shipments/${shipmentId}`, {
-    method: "PATCH",
+  const response = await fetch(`${API_URL}/shipments/${shipmentId}/assign`, {
+    method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      status: "ASSIGNED",
-      operator_id: operatorId,
-    }),
   });
 
   return handleResponse(response);
@@ -104,4 +99,21 @@ export async function getMyShipments(
     response,
   )) as PaginatedResponse<Shipment>;
   return paginatedResult.data;
+}
+
+export async function updateShipmentStatus(
+  token: string,
+  response: "DELIVERED" | "RETURNED",
+  shipmentId: string,
+): Promise<void> {
+  const res = await fetch(`${API_URL}/shipments/${shipmentId}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status: response }),
+  });
+
+  await handleResponse(res);
 }

@@ -1,4 +1,4 @@
-import { FieldLabel } from "@/src/components/FieldLabel";
+import { FieldLabel } from "@/src/components/ui/FieldLabel";
 import { useTheme } from "@/src/hooks/theme-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -29,7 +29,6 @@ export function InputField({
     <View style={styles.fieldContainer}>
       <FieldLabel>{label}</FieldLabel>
 
-      {/* Contenedor principal que maneja el borde de foco */}
       <View
         style={[
           styles.inputWrapper,
@@ -57,7 +56,6 @@ export function InputField({
           style={[styles.input, { color: colors.text }]}
         />
 
-        {/* Si le pasamos la prop isPassword, renderizamos el botón del ojo */}
         {isPassword && (
           <TouchableOpacity
             style={styles.eyeButton}

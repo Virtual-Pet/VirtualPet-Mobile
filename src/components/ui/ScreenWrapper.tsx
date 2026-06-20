@@ -8,6 +8,7 @@ export function ScreenWrapper({ children }: { children: ReactNode }) {
 
   return (
     <SafeAreaView
+      edges={["top", "left", "right"]}
       style={[styles.screen, { backgroundColor: colors.background }]}
     >
       {children}

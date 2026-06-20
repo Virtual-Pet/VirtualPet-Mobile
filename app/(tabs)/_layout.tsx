@@ -40,7 +40,6 @@ export default function TabsLayout() {
         ),
       }}
     >
-      {/* Pestaña 1: Apunta al archivo home.tsx */}
       <Tabs.Screen
         name="home"
         options={{
@@ -51,7 +50,6 @@ export default function TabsLayout() {
         }}
       />
 
-      {/* Pestaña 2: Apunta al archivo disponibles.tsx */}
       <Tabs.Screen
         name="disponibles"
         options={{
