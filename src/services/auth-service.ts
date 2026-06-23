@@ -14,7 +14,7 @@ export async function login({
   password,
 }: LoginCredentials): Promise<AuthLoginData> {
   const response = await fetch(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/login`,
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login`,
     {
       method: "POST",
       headers: {
@@ -51,7 +51,7 @@ export async function logout(
   }
 
   const response = await fetch(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/logout`,
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/logout`,
     {
       method: "POST",
       headers,
