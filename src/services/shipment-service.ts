@@ -49,7 +49,7 @@ async function handleResponse(response: Response) {
 export async function getAvailableShipments(
   token: string,
 ): Promise<Shipment[]> {
-  const response = await fetch(`${API_URL}/shipments?status=PREPARED`, {
+  const response = await fetch(`${API_URL}/api/v1/shipments?status=PREPARED`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -70,13 +70,16 @@ export async function assignShipmentToMe(
   token: string,
   shipmentId: string,
 ): Promise<Shipment> {
-  const response = await fetch(`${API_URL}/shipments/${shipmentId}/assign`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+  const response = await fetch(
+    `${API_URL}/api/v1/shipments/${shipmentId}/assign`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
 
   return handleResponse(response);
 }
@@ -86,7 +89,7 @@ export async function getMyShipments(
   operatorId: string,
 ): Promise<Shipment[]> {
   const response = await fetch(
-    `${API_URL}/shipments?operator_id=${operatorId}`,
+    `${API_URL}/api/v1/shipments?operator_id=${operatorId}`,
     {
       method: "GET",
       headers: {
@@ -106,7 +109,7 @@ export async function updateShipmentStatus(
   response: "DELIVERED" | "RETURNED",
   shipmentId: string,
 ): Promise<void> {
-  const res = await fetch(`${API_URL}/shipments/${shipmentId}`, {
+  const res = await fetch(`${API_URL}/api/v1/shipments/${shipmentId}`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
