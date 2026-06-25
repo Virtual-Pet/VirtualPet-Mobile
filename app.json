@@ -48,15 +48,12 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "c298ba73-d248-4872-80d6-cb2bb3e1d8fa"
+        "projectId": "e39ba172-bbce-45f3-baaf-5cfd2f03e6e7"
       }
     },
-    "owner": "mickjaggerriquelmistas-team",
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "updates": {
-      "url": "https://u.expo.dev/c298ba73-d248-4872-80d6-cb2bb3e1d8fa"
-    }
+    "owner": "mohitoverde"
   }
 }

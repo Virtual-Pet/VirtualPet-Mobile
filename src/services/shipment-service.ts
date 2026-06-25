@@ -57,18 +57,17 @@ async function handleResponse(response: Response) {
 export async function getAvailableShipments(
   token: string,
 ): Promise<Shipment[]> {
-  const response = await fetch(`${API_URL}/api/v1/shipments?status=PREPARED`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-
-  const paginatedResult = (await handleResponse(
-    response,
-  )) as PaginatedResponse<Shipment>;
-  return paginatedResult.data;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+  const [preparedRes, returnedRes] = await Promise.all([
+    fetch(`${API_URL}/api/v1/shipments?status=PREPARED`, { method: "GET", headers }),
+    fetch(`${API_URL}/api/v1/shipments?status=RETURNED`, { method: "GET", headers }),
+  ]);
+  const prepared = ((await handleResponse(preparedRes)) as PaginatedResponse<Shipment>).data;
+  const returned = ((await handleResponse(returnedRes)) as PaginatedResponse<Shipment>).data;
+  return [...prepared, ...returned];
 }
 
 /**

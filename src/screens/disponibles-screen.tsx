@@ -1,5 +1,5 @@
 import { useTheme } from "@/src/hooks/theme-context";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -15,6 +15,7 @@ import { BodyText } from "../components/ui/BodyText";
 import { PrimaryButton } from "../components/ui/PrimaryButton";
 import { ScreenWrapper } from "../components/ui/ScreenWrapper";
 import { SectionTitle } from "../components/ui/SectionTitle";
+import { useFocusEffect } from "expo-router";
 import { useAuth } from "../hooks/auth-context";
 import {
   assignShipmentToMe,
@@ -43,10 +44,11 @@ export default function DisponiblesScreen() {
     }
   };
 
-  useEffect(() => {
-    loadShipments().finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  useFocusEffect(
+    useCallback(() => {
+      loadShipments().finally(() => setLoading(false));
+    }, [token]),
+  );
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -105,12 +107,12 @@ export default function DisponiblesScreen() {
       >
         <SectionTitle
           title="Pedidos Disponibles"
-          subtitle="Cajas listas en el depósito. Asignate las que vayas a entregar."
+          subtitle="Pedidos listos o retornados en el depósito. Asignate los que vayas a entregar."
         />
 
         {disponibles.length === 0 ? (
           <BodyText style={[styles.emptyText, { color: colors.muted }]}>
-            No hay pedidos preparados en el depósito en este momento.
+            No hay pedidos disponibles en el depósito en este momento.
           </BodyText>
         ) : (
           disponibles.map((pedido) => (

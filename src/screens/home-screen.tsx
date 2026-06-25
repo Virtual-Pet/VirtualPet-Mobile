@@ -1,7 +1,8 @@
 import { useAuth } from "@/src/hooks/auth-context";
 import { useTheme } from "@/src/hooks/theme-context";
+import { useFocusEffect } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   RefreshControl,
@@ -40,11 +41,12 @@ export default function HomeScreen() {
     }
   };
 
-  useEffect(() => {
-    if (status === "authenticated")
-      loadMyShipments().finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, userProfile?.id, status]);
+  useFocusEffect(
+    useCallback(() => {
+      if (status === "authenticated")
+        loadMyShipments().finally(() => setLoading(false));
+    }, [token, userProfile?.id, status]),
+  );
 
   const onRefresh = async () => {
     setRefreshing(true);
