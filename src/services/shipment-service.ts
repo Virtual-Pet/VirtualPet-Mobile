@@ -96,7 +96,7 @@ export async function getMyShipments(
   operatorId: string,
 ): Promise<Shipment[]> {
   const response = await fetch(
-    `${API_URL}/api/v1/shipments?rider_id=${operatorId}`,
+    `${API_URL}/api/v1/shipments?rider_id=${operatorId}&status=ASSIGNED`,
     {
       method: "GET",
       headers: {
