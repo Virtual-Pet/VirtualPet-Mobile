@@ -13,6 +13,13 @@ export interface ShippingAddress {
   postalCode: string;
 }
 
+export interface RiderInfo {
+  name: string;
+  lastname: string;
+  phone: string;
+  vehicleType: string;
+}
+
 export interface Shipment {
   shipmentId: string;
   orderId: string;
@@ -22,6 +29,7 @@ export interface Shipment {
   contactEmail: string;
   total: string;
   shippingAddress: ShippingAddress;
+  rider?: RiderInfo | null;
 }
 
 export interface PaginatedResponse<T> {
@@ -89,7 +97,7 @@ export async function getMyShipments(
   operatorId: string,
 ): Promise<Shipment[]> {
   const response = await fetch(
-    `${API_URL}/api/v1/shipments?operator_id=${operatorId}`,
+    `${API_URL}/api/v1/shipments?rider_id=${operatorId}`,
     {
       method: "GET",
       headers: {
